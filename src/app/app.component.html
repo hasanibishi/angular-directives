@@ -41,6 +41,14 @@
                         </mat-select>
                     </mat-form-field>
                 </fieldset>
+
+                <br><br>
+
+                <fieldset>
+                    <legend>Negative value</legend>
+                    <mat-checkbox formControlName="allowNegativeValue"
+                                  (change)="resetCurrentValue()">Allow negative value</mat-checkbox>
+                </fieldset>
             </div>
             <div>
                 <mat-form-field>
@@ -49,22 +57,19 @@
                            matInput
                            numbersOnly
                            [allowDecimals]="getControlValue('allowDecimals')"
-                           [allowSign]="false"
+                           [allowSign]="getControlValue('allowNegativeValue')"
                            autocomplete="off"
                            [minValidator]="getControlValue('minNumericValue')"
                            [maxValidator]="getControlValue('maxNumericValue')"
                            [maxFractionalDigits]="getControlValue('decimalPlaces')">
-                    <mat-error>
+                    <mat-error *ngIf="getErrorMessage('tall', 'required')">
+                        The field is required
+                    </mat-error>
 
-                        <span
-                              *ngIf="getErrorMessage('tall', 'minValidator') || getErrorMessage('tall', 'maxValidator')">
-                            Value must be between {{getControlValue('minNumericValue')}} and
-                            {{getControlValue('maxNumericValue')}}
-                        </span>
-
-                        <span *ngIf="getErrorMessage('tall', 'required')">
-                            The field is required
-                        </span>
+                    <mat-error
+                               *ngIf="getErrorMessage('tall', 'minValidator') || getErrorMessage('tall', 'maxValidator')">
+                        Value must be between {{getControlValue('minNumericValue')}} and
+                        {{getControlValue('maxNumericValue')}}
                     </mat-error>
                 </mat-form-field>
 

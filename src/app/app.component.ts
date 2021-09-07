@@ -8,7 +8,8 @@ class Person {
     private minNumericValue: number = 0,
     private maxNumericValue: number = 50,
     private allowDecimals: boolean = true,
-    private decimalPlaces: number = 2
+    private decimalPlaces: number = 2,
+    private allowNegativeValue: boolean = true
   ) { }
 }
 

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-custom-directives": {
+    "numeric-directives": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-custom-directives",
+            "outputPath": "dist/numeric-directives",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-custom-directives:build:production"
+              "browserTarget": "numeric-directives:build:production"
             },
             "development": {
-              "browserTarget": "angular-custom-directives:build:development"
+              "browserTarget": "numeric-directives:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-custom-directives:build"
+            "browserTarget": "numeric-directives:build"
           }
         },
         "test": {
@@ -109,5 +109,5 @@
       }
     }
   },
-  "defaultProject": "angular-custom-directives"
+  "defaultProject": "numeric-directives"
 }
