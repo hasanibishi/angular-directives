@@ -1,13 +1,12 @@
-import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[maxFractionalDigits]'
 })
-export class MaxFractionalDigitsDirective implements OnInit {
+export class MaxFractionalDigitsDirective {
 
   @Input() maxFractionalDigits!: number;
-
-  private regex!: RegExp;
+  @Input() decimalSeparator!: string;
 
   private specialKeys: Array<string> = [
     'Backspace',
@@ -21,14 +20,6 @@ export class MaxFractionalDigitsDirective implements OnInit {
     'Delete'
   ];
 
-  ngOnInit() {
-    this.generateRegex(this.maxFractionalDigits);
-  }
-
-  generateRegex(digits: number) {
-    this.regex = new RegExp(`^-?[0-9]\\d*\\.?\\d{0,${digits}}$`, 'g');
-  }
-
   constructor(private el: ElementRef) { }
 
   @HostListener('keydown', ['$event'])
@@ -40,10 +31,12 @@ export class MaxFractionalDigitsDirective implements OnInit {
     const position = this.el.nativeElement.selectionStart;
     const next: string = [
       current.slice(0, position),
-      event.key == 'Decimal' ? '.' : event.key,
+      event.key == 'Decimal' ? this.decimalSeparator : event.key,
       current.slice(position)
     ].join('');
-    if (next && !String(next).match(this.regex)) {
+    if (next && !String(next).match(
+      new RegExp(`^-?[0-9]\\d*\\${this.decimalSeparator}?\\d{0,${this.maxFractionalDigits}}$`, 'g')
+    )) {
       event.preventDefault();
     }
   }

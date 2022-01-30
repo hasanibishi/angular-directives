@@ -12,7 +12,8 @@ export class MaxValidatorDirective implements Validator {
   validate(c: FormControl): any {
     const v = c.value;
 
-    if (typeof this.maxValidator === 'number' && v > +this.maxValidator)
+    if (typeof this.maxValidator === 'number' && v > +this.maxValidator) {
       return { "maxValidator": true }
+    }
   }
 }

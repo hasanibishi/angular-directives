@@ -5,16 +5,25 @@
                 <fieldset>
                     <legend>Decimal Places</legend>
                     <mat-checkbox formControlName="allowDecimals"
-                                  (change)="resetCurrentValue()">Activate decimals</mat-checkbox>
+                                  (change)="reset()">Activate decimals</mat-checkbox>
 
                     <br><br>
 
                     <mat-form-field>
                         <mat-label>Decimal place</mat-label>
                         <mat-select formControlName="decimalPlaces"
-                                    (valueChange)="onDecimalChange($event)">
+                                    (valueChange)="reset()">
                             <mat-option *ngFor="let itm of decimalPlaces"
                                         [value]="itm">{{itm}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Decimal separator</mat-label>
+                        <mat-select formControlName="decimalSeparator"
+                                    (valueChange)="reset()">
+                            <mat-option *ngFor="let itm of decimalSeparator"
+                                        [value]="itm.sign">{{itm.label}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </fieldset>
@@ -26,7 +35,7 @@
                     <mat-form-field>
                         <mat-label>Minimum numeric value</mat-label>
                         <mat-select formControlName="minNumericValue"
-                                    (valueChange)="resetCurrentValue()">
+                                    (valueChange)="reset()">
                             <mat-option *ngFor="let itm of minNumericValues"
                                         [value]="itm">{{itm}}</mat-option>
                         </mat-select>
@@ -35,7 +44,7 @@
                     <mat-form-field>
                         <mat-label>Maximum numeric value</mat-label>
                         <mat-select formControlName="maxNumericValue"
-                                    (valueChange)="resetCurrentValue()">
+                                    (valueChange)="reset()">
                             <mat-option *ngFor="let itm of maxNumericValues"
                                         [value]="itm">{{itm}}</mat-option>
                         </mat-select>
@@ -47,7 +56,7 @@
                 <fieldset>
                     <legend>Negative value</legend>
                     <mat-checkbox formControlName="allowNegativeValue"
-                                  (change)="resetCurrentValue()">Allow negative value</mat-checkbox>
+                                  (change)="reset()">Allow negative value</mat-checkbox>
                 </fieldset>
             </div>
             <div>
@@ -56,9 +65,10 @@
                     <input formControlName="tall"
                            matInput
                            numbersOnly
+                           autocomplete="off"
                            [allowDecimals]="getControlValue('allowDecimals')"
                            [allowSign]="getControlValue('allowNegativeValue')"
-                           autocomplete="off"
+                           [decimalSeparator]="getControlValue('decimalSeparator')"
                            [minValidator]="getControlValue('minNumericValue')"
                            [maxValidator]="getControlValue('maxNumericValue')"
                            [maxFractionalDigits]="getControlValue('decimalPlaces')">

@@ -1,24 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MaxFractionalDigitsDirective } from './_directives/max-fractional-digits.directive';
-
-class Person {
-  constructor(
-    private tall: [number | null, Validators] = [null, Validators.required],
-    private minNumericValue: number = 0,
-    private maxNumericValue: number = 50,
-    private allowDecimals: boolean = true,
-    private decimalPlaces: number = 2,
-    private allowNegativeValue: boolean = true
-  ) { }
-}
+import { Person } from './_models/person.model';
+import { ISeparator } from './_models/separator.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   @ViewChild(MaxFractionalDigitsDirective) decimalDirective!: MaxFractionalDigitsDirective;
 
   form: FormGroup;
@@ -28,16 +19,14 @@ export class AppComponent implements OnInit {
 
   decimalPlaces: number[] = [1, 2, 3, 4, 5];
 
+  decimalSeparator: ISeparator[] = [
+    { sign: '.', label: 'Dot (.)' },
+    { sign: ',', label: 'Comma (,)' }
+  ];
+
   constructor(fb: FormBuilder) {
     this.form = fb.group(new Person());
   }
-
-  onDecimalChange(digits: number) {
-    this.decimalDirective.generateRegex(digits);
-    this.resetCurrentValue();
-  }
-
-  ngOnInit() { }
 
   getErrorMessage(controlName: string, validationType: string) {
     return this.form.controls[controlName].hasError(validationType);
@@ -47,7 +36,7 @@ export class AppComponent implements OnInit {
     return this.form.controls[controlName].value;
   }
 
-  resetCurrentValue() {
+  reset() {
     this.form.controls['tall'].reset();
   }
 }
