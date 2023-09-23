@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MaxFractionalDigitsDirective } from './_directives/max-fractional-digits.directive';
 import { NumbersOnlyDirective } from './_directives/numbers-only.directive';
 import { MaxValidatorDirective } from './_directives/max-validator.directive';
 import { MinValidatorDirective } from './_directives/min-validator.directive';
@@ -17,7 +16,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
-    MaxFractionalDigitsDirective,
     MaxValidatorDirective,
     MinValidatorDirective,
     NumbersOnlyDirective

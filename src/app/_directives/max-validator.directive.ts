@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
+import { Utility } from '../_services/utility';
 
 @Directive({
   selector: '[maxValidator]',
@@ -9,11 +10,15 @@ export class MaxValidatorDirective implements Validator {
 
   @Input() maxValidator!: number;
 
-  validate(c: FormControl): any {
-    const v = c.value;
+  @Input() locale: string = '';
 
-    if (typeof this.maxValidator === 'number' && v > +this.maxValidator) {
+  validate(c: FormControl) {
+    const value = Utility.formatNumberViaLocale(c.value, this.locale);
+
+    if (typeof this.maxValidator === 'number' && value > +this.maxValidator) {
       return { "maxValidator": true }
+    } else {
+      return null;
     }
   }
 }

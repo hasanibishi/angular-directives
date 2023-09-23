@@ -1,19 +1,27 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-
-interface IEventTarget extends EventTarget {
-  selectionStart: number;
-  value: string;
-}
+import { Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { Utility } from '../_services/utility';
 
 @Directive({
   selector: '[numbersOnly]'
 })
-export class NumbersOnlyDirective {
-  @Input() allowDecimals: boolean = true;
-  @Input() allowSign: boolean = false;
-  @Input() decimalSeparator: string = '.';
+export class NumbersOnlyDirective implements OnInit {
+  @Input()
+  inputValue!: number;
 
-  previousValue: string = '';
+  @Input()
+  allowDecimals: boolean = true;
+
+  @Input()
+  allowSign: boolean = true;
+
+  @Input()
+  decimalSeparator: string = '.';
+
+  @Input()
+  locale: string = '';
+
+  @Input()
+  decimalPlaces: number = 2;
 
   // --------------------------------------
   //  Regular expressions
@@ -28,11 +36,16 @@ export class NumbersOnlyDirective {
    */
   constructor(private hostElement: ElementRef) { }
 
+  ngOnInit(): void {
+    this.setNumberValue(this.inputValue);
+  }
+
   /**
    * Event handler for host's change event
    * @param e
    */
-  @HostListener('change', ['$event']) onChange(e: Event) {
+  @HostListener('change', ['$event'])
+  onChange(e: Event) {
     this.validateValue(this.hostElement.nativeElement.value);
   }
 
@@ -40,9 +53,10 @@ export class NumbersOnlyDirective {
    * Event handler for host's paste event
    * @param e
    */
-  @HostListener('paste', ['$event']) onPaste(e: any) {
+  @HostListener('paste', ['$event'])
+  onPaste(e: ClipboardEvent) {
     // get and validate data from clipboard
-    let value = e.clipboardData.getData('text/plain');
+    let value = e.clipboardData!.getData('text/plain');
     this.validateValue(value);
     e.preventDefault();
   }
@@ -51,7 +65,8 @@ export class NumbersOnlyDirective {
    * Event handler for host's keydown event
    * @param event
    */
-  @HostListener('keydown', ['$event']) onKeyDown(e: any) {
+  @HostListener('keydown', ['$event'])
+  onKeyDown(e: any) {
     let cursorPosition: number = e.target['selectionStart'];
     let originalValue: string = e.target['value'];
     let key: string = this.getName(e);
@@ -103,9 +118,6 @@ export class NumbersOnlyDirective {
       return;
     }
 
-    // save value before keydown event
-    this.previousValue = originalValue;
-
     // allow number characters only
     let isNumber = new RegExp(this.integerUnsigned).test(key);
     if (isNumber) return;
@@ -133,18 +145,13 @@ export class NumbersOnlyDirective {
     // fix it adding a zero in the end
     let lastCharacter = value.charAt(value.length - 1);
     if (lastCharacter == this.decimalSeparator) value = value + 0;
-
-    // test number with regular expression, when
-    // number is invalid, replace it with a zero
-    let valid: boolean = new RegExp(regex).test(value);
-    // this.hostElement.nativeElement['value'] = valid ? value : 0;
   }
 
   /**
    * Get key's name
    * @param e
    */
-  getName(e: KeyboardEvent): any {
+  getName(e: KeyboardEvent): string {
     if (e.key) {
       return e.key;
     } else {
@@ -175,6 +182,27 @@ export class NumbersOnlyDirective {
             return String.fromCharCode(e.keyCode);
         }
       }
+      else return '';
+    }
+  }
+
+  @HostListener("focusout", ["$event.target.value"])
+  onBlur(value: number) {
+    this.setNumberValue(value);
+  }
+
+  private setNumberValue(value: number) {
+    const newValue = Utility.formatNumberViaLocale(value, this.locale);
+
+    if (newValue || newValue === 0) {
+      this.hostElement.nativeElement.value = Number(newValue).toLocaleString(
+        this.locale, this.allowDecimals ? {
+          minimumFractionDigits: this.decimalPlaces,
+          maximumFractionDigits: this.decimalPlaces
+        } : {});
+    }
+    else {
+      this.hostElement.nativeElement.value = '';
     }
   }
 }

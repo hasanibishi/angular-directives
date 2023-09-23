@@ -10,20 +10,20 @@
                     <br><br>
 
                     <mat-form-field>
-                        <mat-label>Decimal place</mat-label>
-                        <mat-select formControlName="decimalPlaces"
+                        <mat-label>Locale</mat-label>
+                        <mat-select formControlName="locale"
                                     (valueChange)="reset()">
-                            <mat-option *ngFor="let itm of decimalPlaces"
-                                        [value]="itm">{{itm}}</mat-option>
+                            <mat-option *ngFor="let itm of localeList"
+                                        [value]="itm.code">{{itm.country}} ({{itm.code}})</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field>
-                        <mat-label>Decimal separator</mat-label>
-                        <mat-select formControlName="decimalSeparator"
+                        <mat-label>Decimal places</mat-label>
+                        <mat-select formControlName="decimalPlaces"
                                     (valueChange)="reset()">
-                            <mat-option *ngFor="let itm of decimalSeparator"
-                                        [value]="itm.sign">{{itm.label}}</mat-option>
+                            <mat-option *ngFor="let itm of decimalPlacesList"
+                                        [value]="itm">{{itm}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </fieldset>
@@ -59,31 +59,35 @@
                                   (change)="reset()">Allow negative value</mat-checkbox>
                 </fieldset>
             </div>
+
             <div>
                 <mat-form-field>
-                    <mat-label>Enter value</mat-label>
-                    <input formControlName="tall"
-                           matInput
+                    <mat-label>Enter a value</mat-label>
+                    <input matInput
+                           type="text"
+                           formControlName="salary"
                            numbersOnly
                            autocomplete="off"
-                           [allowDecimals]="getControlValue('allowDecimals')"
-                           [allowSign]="getControlValue('allowNegativeValue')"
-                           [decimalSeparator]="getControlValue('decimalSeparator')"
-                           [minValidator]="getControlValue('minNumericValue')"
-                           [maxValidator]="getControlValue('maxNumericValue')"
-                           [maxFractionalDigits]="getControlValue('decimalPlaces')">
-                    <mat-error *ngIf="getErrorMessage('tall', 'required')">
+                           [inputValue]="salary.value"
+                           [allowDecimals]="allowDecimals.value"
+                           [allowSign]="allowNegativeValue.value"
+                           [decimalSeparator]="decimalSeparator"
+                           [minValidator]="minNumericValue.value"
+                           [maxValidator]="maxNumericValue.value"
+                           [decimalPlaces]="decimalPlaces.value"
+                           [locale]="locale.value">
+                    <mat-error *ngIf="getErrorMessage('salary', 'required')">
                         The field is required
                     </mat-error>
 
                     <mat-error
-                               *ngIf="getErrorMessage('tall', 'minValidator') || getErrorMessage('tall', 'maxValidator')">
+                               *ngIf="getErrorMessage('salary', 'minValidator') || getErrorMessage('salary', 'maxValidator')">
                         Value must be between {{getControlValue('minNumericValue')}} and
                         {{getControlValue('maxNumericValue')}}
                     </mat-error>
                 </mat-form-field>
 
-                <br><br>
+                <br>
 
                 <button type="submit"
                         mat-raised-button

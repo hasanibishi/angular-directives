@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
+import { Utility } from '../_services/utility';
 
 @Directive({
   selector: '[minValidator]',
@@ -9,11 +10,15 @@ export class MinValidatorDirective implements Validator {
 
   @Input() minValidator!: number;
 
-  validate(c: FormControl): any {
-    const v = c.value;
+  @Input() locale: string = '';
 
-    if (typeof this.minValidator === 'number' && v < +this.minValidator) {
+  validate(c: FormControl) {
+    const value = Utility.formatNumberViaLocale(c.value, this.locale);
+
+    if (typeof this.minValidator === 'number' && value < +this.minValidator) {
       return { "minValidator": true }
+    } else {
+      return null;
     }
   }
 }
