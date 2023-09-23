@@ -1,10 +1,15 @@
 # Numeric-Directives
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
 
 # Introduction
 
-In this example are implemented some of directives such as: typing only numbers and checking negative values, validations for minimal and maximal values and fractionals digits (decimal places).
+This directive can be used for formatting the numbers in an input-control, and this directive works based on our custom format such as:
+
+Country locale;
+Allowing negative values;
+Validations for minimal and maximal value;
+Fractional digits (decimal places) or disable it at all;
 
 # Live Demo
 👉 https://hasanibishi.github.io/numeric-directives/
