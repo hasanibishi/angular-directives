@@ -1,100 +1,10 @@
-<div class="content">
-    <form [formGroup]="form">
-        <div class="controls">
-            <div>
-                <fieldset>
-                    <legend>Decimal Places</legend>
-                    <mat-checkbox formControlName="allowDecimals"
-                                  (change)="reset()">Activate decimals</mat-checkbox>
+<mat-tab-group mat-stretch-tabs="false"
+               mat-align-tabs="center">
+    <mat-tab label="Numeric format">
+        <numeric-format></numeric-format>
+    </mat-tab>
 
-                    <br><br>
-
-                    <mat-form-field>
-                        <mat-label>Locale</mat-label>
-                        <mat-select formControlName="locale"
-                                    (valueChange)="reset()">
-                            <mat-option *ngFor="let itm of localeList"
-                                        [value]="itm.code">{{itm.country}} ({{itm.code}})</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <mat-label>Decimal places</mat-label>
-                        <mat-select formControlName="decimalPlaces"
-                                    (valueChange)="reset()">
-                            <mat-option *ngFor="let itm of decimalPlacesList"
-                                        [value]="itm">{{itm}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </fieldset>
-
-                <br><br>
-
-                <fieldset>
-                    <legend>Min and Max numeric values</legend>
-                    <mat-form-field>
-                        <mat-label>Minimum numeric value</mat-label>
-                        <mat-select formControlName="minNumericValue"
-                                    (valueChange)="reset()">
-                            <mat-option *ngFor="let itm of minNumericValues"
-                                        [value]="itm">{{itm}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <mat-label>Maximum numeric value</mat-label>
-                        <mat-select formControlName="maxNumericValue"
-                                    (valueChange)="reset()">
-                            <mat-option *ngFor="let itm of maxNumericValues"
-                                        [value]="itm">{{itm}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </fieldset>
-
-                <br><br>
-
-                <fieldset>
-                    <legend>Negative value</legend>
-                    <mat-checkbox formControlName="allowNegativeValue"
-                                  (change)="reset()">Allow negative value</mat-checkbox>
-                </fieldset>
-            </div>
-
-            <div>
-                <mat-form-field>
-                    <mat-label>Enter a value</mat-label>
-                    <input matInput
-                           type="text"
-                           formControlName="salary"
-                           numbersOnly
-                           autocomplete="off"
-                           [inputValue]="salary.value"
-                           [allowDecimals]="allowDecimals.value"
-                           [allowSign]="allowNegativeValue.value"
-                           [decimalSeparator]="decimalSeparator"
-                           [minValidator]="minNumericValue.value"
-                           [maxValidator]="maxNumericValue.value"
-                           [decimalPlaces]="decimalPlaces.value"
-                           [locale]="locale.value">
-                    <mat-error *ngIf="getErrorMessage('salary', 'required')">
-                        The field is required
-                    </mat-error>
-
-                    <mat-error
-                               *ngIf="getErrorMessage('salary', 'minValidator') || getErrorMessage('salary', 'maxValidator')">
-                        Value must be between {{getControlValue('minNumericValue')}} and
-                        {{getControlValue('maxNumericValue')}}
-                    </mat-error>
-                </mat-form-field>
-
-                <br>
-
-                <button type="submit"
-                        mat-raised-button
-                        color="primary">
-                    <span>Submit</span>
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
+    <mat-tab label="Date format">
+        <date-format></date-format>
+    </mat-tab>
+</mat-tab-group>

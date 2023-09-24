@@ -1,0 +1,24 @@
+<div class="content">
+    <h2>Selected date: {{selectedDate.value | date: format.value}}</h2>
+
+    <form [formGroup]="form">
+        <mat-form-field>
+            <mat-label>Select a format</mat-label>
+            <mat-select formControlName="format">
+                <mat-option *ngFor="let itm of dateFormatsList"
+                            [value]="itm">{{itm}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="showDateInput">
+            <mat-label>Choose a date</mat-label>
+            <input matInput
+                   [matDatepicker]="picker"
+                   formControlName="selectedDate">
+            <mat-hint>{{format.value}}</mat-hint>
+            <mat-datepicker-toggle matIconSuffix
+                                   [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </form>
+</div>

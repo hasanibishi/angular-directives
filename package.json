@@ -1,6 +1,6 @@
 {
   "name": "numeric-directives",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -17,9 +17,11 @@
     "@angular/core": "^16.2.5",
     "@angular/forms": "^16.2.5",
     "@angular/material": "^16.2.4",
+    "@angular/material-moment-adapter": "^16.2.5",
     "@angular/platform-browser": "^16.2.5",
     "@angular/platform-browser-dynamic": "^16.2.5",
     "@angular/router": "^16.2.5",
+    "moment": "^2.29.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.13.3"

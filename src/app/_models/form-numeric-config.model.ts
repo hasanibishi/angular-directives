@@ -1,6 +1,6 @@
 import { FormControl } from "@angular/forms";
 
-export interface FormConfig {
+export interface FormNumericConfig {
     salary: FormControl<number>;
     minNumericValue: FormControl<number>;
     maxNumericValue: FormControl<number>;

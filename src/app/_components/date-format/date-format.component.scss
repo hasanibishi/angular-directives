@@ -1,0 +1,10 @@
+.content {
+    max-width: 800px;
+    margin: 5rem auto;
+
+    form {
+        display: grid;
+        grid-auto-flow: column;
+        grid-gap: 2rem;
+    }
+}
